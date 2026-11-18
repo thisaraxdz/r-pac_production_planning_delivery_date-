@@ -1,25 +1,34 @@
 /* =====================================================================
-   THEME: cream page, gold accents, dark brown panels.
+   THEME: the same colours and fonts as the colleague's software.
+   The values in the first block are copied from their theme.css.
    This file is loaded last, so it changes the look of every page.
-   To change a colour later, change it in the list below.
+   To change a colour later, change it in the lists below.
    ===================================================================== */
 
 :root {
-  --bg: #fbf6e6;          /* page background (cream) */
-  --card: #fffefa;        /* cards */
-  --gold: #d4a72c;        /* buttons, active tab, bars */
-  --gold-dark: #7a5a00;   /* gold-brown text on light backgrounds */
-  --ink: #2b2112;         /* main text, dark panels, header */
-  --muted: #745f3c;       /* small labels */
-  --line: #e6d9b0;        /* thin lines */
-  --soft: #f6ebc8;        /* hover and bar tracks */
-  --softer: #fbf3d8;      /* very light gold */
-  --dark-line: #4c3c20;   /* lines inside dark panels */
-  --on-dark: #c8b78e;     /* small text inside dark panels */
+  /* Copied exactly from the colleague's theme.css */
+  --bg: #fbf6e6;
+  --surface: #fffefa;
+  --gold: #d4a72c;
+  --gold-hover: #e2b93d;
+  --gold-deep: #8c6a0f;
+  --gold-tint: #f6ebc8;
+  --gold-wash: #fbf3d8;
+  --umber: #2b2112;
+  --muted: #6b5a3c;
+  --line: #e6d9b0;
+  --danger: #9b2c1f;
+  --danger-bg: #fbe9e4;
 
-  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-body: "DM Sans", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* Only for our dashboard (measured from the screenshots, not from their file) */
+  --umber-line: #4c3c20;
+  --on-umber: #c8b78e;
+  --success: #276b43;
+  --success-bg: #e5f1e4;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
 }
 
 /* ---------- Page basics ---------- */
@@ -27,14 +36,22 @@
 body {
   font-family: var(--font-body);
   background: var(--bg);
-  color: var(--ink);
+  color: var(--umber);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
+  font-weight: 600;
 }
 
 .page h1 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--ink);
+  font-family: var(--font-head);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--umber);
 }
 
 .subtitle {
@@ -42,61 +59,78 @@ body {
 }
 
 .card {
-  background: var(--card);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-top: 3px solid var(--gold);
 }
 
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--ink);
+:focus-visible {
+  outline: 2px solid var(--gold-deep);
   outline-offset: 2px;
 }
 
 /* ---------- Buttons ---------- */
 
-.btn-primary {
-  background: var(--gold);
-  color: var(--ink);
+.btn-primary,
+.btn-secondary {
+  min-height: 0;
+  padding: 9px 16px;
+  border-radius: 6px;
   font-family: var(--font-body);
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: var(--umber);
 }
 
 .btn-primary:hover {
-  background: #c19822;
+  background: var(--gold-hover);
 }
 
 .btn-secondary {
-  background: var(--card);
-  color: var(--ink);
-  border: 1px solid var(--ink);
-  font-family: var(--font-body);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--umber);
 }
 
 .btn-secondary:hover {
-  background: var(--soft);
+  background: var(--gold-tint);
 }
 
-.choose-link,
+.choose-link {
+  color: var(--gold-deep);
+  font-family: var(--font-body);
+}
+
 .move-bar-button {
+  background: var(--surface);
   font-family: var(--font-body);
 }
 
 /* ---------- Status tags ---------- */
 
+.tag {
+  padding: 2px 12px;
+  line-height: 1.4;
+}
+
 .tag-met {
-  background: #e5f1e4;
-  color: #276b43;
+  background: var(--success-bg);
+  color: var(--success);
 }
 
 .tag-risk {
-  background: var(--softer);
-  color: #7a4e00;
+  background: var(--gold-wash);
+  color: var(--umber);
 }
 
 .tag-not-met {
-  background: #fbe9e4;
-  color: #a13b32;
+  background: var(--danger-bg);
+  color: var(--danger);
 }
 
 /* ---------- Header band and tabs ---------- */
@@ -108,20 +142,20 @@ button:focus-visible {
   flex-wrap: wrap;
   gap: 4px 16px;
   padding: 18px 32px;
-  background: var(--ink);
+  background: var(--umber);
   border-bottom: 3px solid var(--gold);
 }
 
 .app-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-head);
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--gold);
 }
 
 .app-subtitle {
   font-size: 14px;
-  color: var(--on-dark);
+  color: var(--on-umber);
 }
 
 .navbar {
@@ -135,19 +169,19 @@ button:focus-visible {
   padding: 10px 22px;
   border-bottom: 0;
   border-radius: 8px 8px 0 0;
-  color: #6b5a3c;
+  color: var(--muted);
   font-size: 15px;
   font-weight: 600;
 }
 
 .nav-tab:hover {
-  background: var(--soft);
-  color: var(--ink);
+  background: var(--gold-tint);
+  color: var(--umber);
 }
 
 .nav-tab.active {
   background: var(--gold);
-  color: var(--ink);
+  color: var(--umber);
 }
 
 /* ---------- Delivery dates page ---------- */
@@ -159,11 +193,11 @@ button:focus-visible {
 .summary-value {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: var(--ink);
+  color: var(--umber);
 }
 
 .orders-table th {
-  background: var(--softer);
+  background: var(--gold-wash);
   color: var(--muted);
 }
 
@@ -172,21 +206,21 @@ button:focus-visible {
 }
 
 .orders-table tbody tr:hover {
-  background: var(--soft);
+  background: var(--gold-tint);
 }
 
 .so-link {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: var(--ink);
+  color: var(--umber);
 }
 
 .so-link:hover {
-  color: var(--gold-dark);
+  color: var(--gold-deep);
 }
 
 .chance-bar {
-  background: var(--soft);
+  background: var(--gold-tint);
 }
 
 .chance-bar-fill {
@@ -196,16 +230,18 @@ button:focus-visible {
 /* ---------- Order profile page ---------- */
 
 .back-link {
-  color: var(--gold-dark);
+  color: var(--gold-deep);
 }
 
 .detail-card h2 {
-  font-family: var(--font-heading);
-  color: var(--ink);
+  font-family: var(--font-head);
+  font-weight: 600;
+  color: var(--umber);
 }
 
 .big-date {
-  font-family: var(--font-heading);
+  font-family: var(--font-head);
+  font-weight: 600;
 }
 
 .step-row,
@@ -215,30 +251,65 @@ button:focus-visible {
 
 .field,
 .time-label,
-.note {
+.note,
+.choose-label,
+.accepted-extra {
   color: var(--muted);
 }
 
+/* Input boxes and drop-downs: the same look as in their software */
 .edit-step select,
-.edit-step input {
-  border-color: #cdbb80;
-  background: var(--card);
-  color: var(--ink);
+.edit-step input,
+.choose-panel input[type="date"] {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--umber);
   font-family: var(--font-body);
 }
 
 .edit-step select:focus-visible,
-.edit-step input:focus-visible {
-  outline-color: var(--gold);
+.edit-step input:focus-visible,
+.choose-panel input[type="date"]:focus-visible {
+  outline: none;
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 0 3px rgba(212, 167, 44, 0.35);
 }
 
+/* Red boxes: like their ".error" box, with a stripe on the left */
+.problems,
+.clash-box {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+}
+
+/* Gold boxes for notes and warnings */
+.choose-warning,
 .edited-note {
-  background: var(--softer);
-  color: #7a4e00;
+  background: var(--gold-wash);
+  color: var(--umber);
+  border-left: 3px solid var(--gold);
+  border-radius: 4px;
+}
+
+.accepted-note {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.choose-result {
+  background: var(--gold-wash);
+}
+
+.choose-panel {
+  border-color: var(--line);
+  background: var(--surface);
 }
 
 .chance-track {
-  background: var(--soft);
+  background: var(--gold-tint);
 }
 
 .chance-fill {
@@ -248,8 +319,8 @@ button:focus-visible {
 /* The "Chance of finishing" card becomes a dark brown panel.
    To go back to a light card, delete this whole block (until the next heading). */
 .detail-card:has(.chance-row) {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--umber);
+  border-color: var(--umber);
   border-top-color: var(--gold);
   color: var(--bg);
 }
@@ -259,7 +330,7 @@ button:focus-visible {
 }
 
 .detail-card:has(.chance-row) .note {
-  color: var(--on-dark);
+  color: var(--on-umber);
 }
 
 .detail-card:has(.chance-row) .chance-label {
@@ -267,7 +338,7 @@ button:focus-visible {
 }
 
 .detail-card:has(.chance-row) .chance-track {
-  background: var(--dark-line);
+  background: var(--umber-line);
 }
 
 .detail-card:has(.chance-row) .chance-fill {
@@ -276,37 +347,6 @@ button:focus-visible {
 
 .detail-card:has(.chance-row) .chance-value {
   color: #fff;
-}
-
-/* ---------- Choose another date ---------- */
-
-.choose-result {
-  background: var(--softer);
-}
-
-.choose-link {
-  color: var(--gold-dark);
-}
-
-.choose-panel {
-  border-color: var(--line);
-  background: #fffdf3;
-}
-
-.choose-label,
-.accepted-extra {
-  color: var(--muted);
-}
-
-.choose-panel input[type="date"] {
-  border-color: #cdbb80;
-  background: var(--card);
-  color: var(--ink);
-  font-family: var(--font-body);
-}
-
-.choose-panel input[type="date"]:focus-visible {
-  outline-color: var(--gold);
 }
 
 /* ---------- Schedule board ---------- */
@@ -320,17 +360,26 @@ button:focus-visible {
 }
 
 .move-bar-idle {
-  background: var(--card);
+  background: var(--surface);
   border-color: var(--line);
   color: var(--muted);
 }
 
-.move-bar-button {
-  background: var(--card);
+.move-bar-ok {
+  background: var(--success-bg);
+  border-color: #9ad1b0;
+  color: var(--success);
+}
+
+.move-bar-bad {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .board-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-head);
+  font-weight: 600;
 }
 
 .board-row {
@@ -338,7 +387,7 @@ button:focus-visible {
 }
 
 .machine-cell {
-  background: var(--card);
+  background: var(--surface);
 }
 
 .machine-name {
@@ -347,7 +396,7 @@ button:focus-visible {
 
 .group-row,
 .group-row .machine-cell {
-  background: var(--softer);
+  background: var(--gold-wash);
 }
 
 .group-label {
@@ -367,15 +416,15 @@ button:focus-visible {
 }
 
 .job-bar {
-  box-shadow: 0 0 0 2px var(--card);
+  box-shadow: 0 0 0 2px var(--surface);
 }
 
 /* A locked job is dark brown, with a lock */
 .job-bar.job-bar-locked,
 .swatch-locked {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--card);
+  background: var(--umber);
+  border-color: var(--umber);
+  color: var(--surface);
 }
 
 /* A machine breakdown is warm grey and dashed */
@@ -387,5 +436,10 @@ button:focus-visible {
 }
 
 .job-bar.job-bar-clash {
-  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px #c62828;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--danger);
+}
+
+.drop-preview-bad {
+  background: rgba(155, 44, 31, 0.14);
+  border-color: var(--danger);
 }

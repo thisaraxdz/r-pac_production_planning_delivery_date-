@@ -1,0 +1,106 @@
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 22px;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 24px;
+}
+
+.summary-label {
+  font-size: 15px;
+  color: #4b5563;
+}
+
+.summary-value {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.table-card {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.orders-table th {
+  padding: 16px 20px;
+  background: #f0f2f5;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+.orders-table td {
+  padding: 16px 20px;
+  border-top: 1px solid #e3e6ea;
+}
+
+.orders-table tbody tr {
+  cursor: pointer;
+}
+
+.orders-table tbody tr:hover {
+  background: #f7f9fc;
+}
+
+.so-link {
+  font-weight: 700;
+  color: #1b2430;
+  text-decoration: none;
+}
+
+.so-link:hover {
+  color: #2457d6;
+  text-decoration: underline;
+}
+
+.recommended {
+  font-weight: 700;
+}
+
+.chance {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.chance b {
+  min-width: 36px;
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  background: #e3e6ea;
+  border-radius: 3px;
+}
+
+.bar-fill {
+  height: 6px;
+  background: #2457d6;
+  border-radius: 3px;
+}

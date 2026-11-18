@@ -1,0 +1,111 @@
+.choose-result {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #f0f2f5;
+  font-size: 15px;
+}
+
+.choose-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 0;
+}
+
+.choose-line + .choose-line {
+  margin-top: 6px;
+}
+
+.choose-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #2457d6;
+  font: 600 14px Inter, Arial, sans-serif;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.choose-warning {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fff1d6;
+  color: #7a4e00;
+  font-size: 14px;
+}
+
+.choose-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  background: #fbfbfc;
+}
+
+.choose-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.choose-panel input[type="date"] {
+  min-height: 44px;
+  max-width: 240px;
+  padding: 0 12px;
+  border: 1px solid #9ca3af;
+  border-radius: 8px;
+  background: #fff;
+  color: #1b2430;
+  font: 500 15px Inter, Arial, sans-serif;
+}
+
+.choose-panel input[type="date"]:focus-visible {
+  outline: 2px solid #2457d6;
+  outline-offset: 1px;
+}
+
+.choose-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* "Use this date" is greyed out when the picked date is not allowed (for example a past date) */
+.choose-actions .btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* "Date accepted": looks pressed (green with a tick) and keeps the normal mouse pointer */
+.button-row .btn-primary:disabled {
+  background: #1f6b44;
+  color: #fff;
+  opacity: 1;
+  cursor: default;
+}
+
+.button-row .btn-primary:disabled::before {
+  content: "✓ ";
+}
+
+.accepted-note {
+  margin-top: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #e4f4ea;
+  color: #1f6b44;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.accepted-extra {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #4b5563;
+}

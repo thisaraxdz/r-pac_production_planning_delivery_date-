@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #f5f6f8;
+  color: #1b2430;
+}
+
+.page {
+  padding: 28px 32px;
+}
+
+.page h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: #4b5563;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+}
+
+.btn-primary {
+  min-height: 44px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 8px;
+  background: #2457d6;
+  color: #fff;
+  font: 600 15px Inter, Arial, sans-serif;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #1d47b3;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tag-met {
+  background: #e4f4ea;
+  color: #1f6b44;
+}
+
+.tag-risk {
+  background: #fff1d6;
+  color: #7a4e00;
+}
+
+.tag-not-met {
+  background: #fbe5e3;
+  color: #a3231b;
+}

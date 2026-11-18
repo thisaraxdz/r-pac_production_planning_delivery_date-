@@ -1,0 +1,391 @@
+/* =====================================================================
+   THEME: cream page, gold accents, dark brown panels.
+   This file is loaded last, so it changes the look of every page.
+   To change a colour later, change it in the list below.
+   ===================================================================== */
+
+:root {
+  --bg: #fbf6e6;          /* page background (cream) */
+  --card: #fffefa;        /* cards */
+  --gold: #d4a72c;        /* buttons, active tab, bars */
+  --gold-dark: #7a5a00;   /* gold-brown text on light backgrounds */
+  --ink: #2b2112;         /* main text, dark panels, header */
+  --muted: #745f3c;       /* small labels */
+  --line: #e6d9b0;        /* thin lines */
+  --soft: #f6ebc8;        /* hover and bar tracks */
+  --softer: #fbf3d8;      /* very light gold */
+  --dark-line: #4c3c20;   /* lines inside dark panels */
+  --on-dark: #c8b78e;     /* small text inside dark panels */
+
+  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+}
+
+/* ---------- Page basics ---------- */
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.page h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.subtitle {
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background: #c19822;
+}
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  font-family: var(--font-body);
+}
+
+.btn-secondary:hover {
+  background: var(--soft);
+}
+
+.choose-link,
+.move-bar-button {
+  font-family: var(--font-body);
+}
+
+/* ---------- Status tags ---------- */
+
+.tag-met {
+  background: #e5f1e4;
+  color: #276b43;
+}
+
+.tag-risk {
+  background: var(--softer);
+  color: #7a4e00;
+}
+
+.tag-not-met {
+  background: #fbe9e4;
+  color: #a13b32;
+}
+
+/* ---------- Header band and tabs ---------- */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  padding: 18px 32px;
+  background: var(--ink);
+  border-bottom: 3px solid var(--gold);
+}
+
+.app-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.app-subtitle {
+  font-size: 14px;
+  color: var(--on-dark);
+}
+
+.navbar {
+  gap: 6px;
+  padding: 16px 32px 0;
+  background: transparent;
+  border-bottom: 1px solid var(--gold);
+}
+
+.nav-tab {
+  padding: 10px 22px;
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  color: #6b5a3c;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.nav-tab:hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.nav-tab.active {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* ---------- Delivery dates page ---------- */
+
+.summary-label {
+  color: var(--muted);
+}
+
+.summary-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.orders-table th {
+  background: var(--softer);
+  color: var(--muted);
+}
+
+.orders-table td {
+  border-top-color: var(--line);
+}
+
+.orders-table tbody tr:hover {
+  background: var(--soft);
+}
+
+.so-link {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.so-link:hover {
+  color: var(--gold-dark);
+}
+
+.chance-bar {
+  background: var(--soft);
+}
+
+.chance-bar-fill {
+  background: var(--gold);
+}
+
+/* ---------- Order profile page ---------- */
+
+.back-link {
+  color: var(--gold-dark);
+}
+
+.detail-card h2 {
+  font-family: var(--font-heading);
+  color: var(--ink);
+}
+
+.big-date {
+  font-family: var(--font-heading);
+}
+
+.step-row,
+.edit-step {
+  border-top-color: var(--line);
+}
+
+.field,
+.time-label,
+.note {
+  color: var(--muted);
+}
+
+.edit-step select,
+.edit-step input {
+  border-color: #cdbb80;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+.edit-step select:focus-visible,
+.edit-step input:focus-visible {
+  outline-color: var(--gold);
+}
+
+.edited-note {
+  background: var(--softer);
+  color: #7a4e00;
+}
+
+.chance-track {
+  background: var(--soft);
+}
+
+.chance-fill {
+  background: var(--gold);
+}
+
+/* The "Chance of finishing" card becomes a dark brown panel.
+   To go back to a light card, delete this whole block (until the next heading). */
+.detail-card:has(.chance-row) {
+  background: var(--ink);
+  border-color: var(--ink);
+  border-top-color: var(--gold);
+  color: var(--bg);
+}
+
+.detail-card:has(.chance-row) h2 {
+  color: var(--gold);
+}
+
+.detail-card:has(.chance-row) .note {
+  color: var(--on-dark);
+}
+
+.detail-card:has(.chance-row) .chance-label {
+  color: var(--bg);
+}
+
+.detail-card:has(.chance-row) .chance-track {
+  background: var(--dark-line);
+}
+
+.detail-card:has(.chance-row) .chance-fill {
+  background: var(--gold);
+}
+
+.detail-card:has(.chance-row) .chance-value {
+  color: #fff;
+}
+
+/* ---------- Choose another date ---------- */
+
+.choose-result {
+  background: var(--softer);
+}
+
+.choose-link {
+  color: var(--gold-dark);
+}
+
+.choose-panel {
+  border-color: var(--line);
+  background: #fffdf3;
+}
+
+.choose-label,
+.accepted-extra {
+  color: var(--muted);
+}
+
+.choose-panel input[type="date"] {
+  border-color: #cdbb80;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+.choose-panel input[type="date"]:focus-visible {
+  outline-color: var(--gold);
+}
+
+/* ---------- Schedule board ---------- */
+
+.legend-item {
+  color: var(--muted);
+}
+
+.move-bar-wrap {
+  background: var(--bg);
+}
+
+.move-bar-idle {
+  background: var(--card);
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.move-bar-button {
+  background: var(--card);
+}
+
+.board-title {
+  font-family: var(--font-heading);
+}
+
+.board-row {
+  border-top-color: var(--line);
+}
+
+.machine-cell {
+  background: var(--card);
+}
+
+.machine-name {
+  border-right-color: var(--line);
+}
+
+.group-row,
+.group-row .machine-cell {
+  background: var(--softer);
+}
+
+.group-label {
+  color: var(--muted);
+}
+
+.day-cell {
+  border-left-color: var(--line);
+}
+
+.shift-row {
+  color: var(--muted);
+}
+
+.board-track {
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+}
+
+.job-bar {
+  box-shadow: 0 0 0 2px var(--card);
+}
+
+/* A locked job is dark brown, with a lock */
+.job-bar.job-bar-locked,
+.swatch-locked {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--card);
+}
+
+/* A machine breakdown is warm grey and dashed */
+.job-bar.job-bar-down,
+.swatch-down {
+  background: #ece5d0;
+  border-color: #8a7a55;
+  color: #4a3f28;
+}
+
+.job-bar.job-bar-clash {
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px #c62828;
+}

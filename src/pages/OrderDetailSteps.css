@@ -1,0 +1,45 @@
+/* The steps table in the order profile */
+
+.steps-scroll {
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+.steps-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.steps-table th {
+  padding: 10px 8px;
+  background: var(--gold-wash);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.steps-table td {
+  padding: 12px 8px;
+  border-top: 1px solid var(--line);
+}
+
+.steps-table .steps-date {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.steps-table th.steps-shift,
+.steps-table td.steps-shift {
+  width: 56px;
+  text-align: center;
+}
+
+.steps-table .steps-gap-value {
+  font-weight: 600;
+  text-align: right;
+}

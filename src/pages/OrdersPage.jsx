@@ -1,16 +1,23 @@
 import { Link, useNavigate } from "react-router"
 import { useSchedule } from "../context/ScheduleContext"
+import { buildScheduleCsv, downloadCsv } from "../utils/exportHelpers"
+import { SAMPLE_TODAY } from "../utils/scheduleHelpers"
 import StatusTag from "../components/StatusTag"
 import "./OrdersPage.css"
 
 function OrdersPage() {
   const navigate = useNavigate()
-  const { orders } = useSchedule()
+  const { orders, details } = useSchedule()
 
   // The three cards are counted from the table data, so they always match it
   const totalOrders = orders.length
   const confirmedOrders = orders.filter((order) => order.status === "Met").length
   const notConfirmedOrders = totalOrders - confirmedOrders
+
+  // Saves the planning schedule as a file that Excel can open
+  function downloadSchedule() {
+    downloadCsv(`planning-schedule-${SAMPLE_TODAY}.csv`, buildScheduleCsv(orders, details))
+  }
 
   return (
     <div className="page">
@@ -21,7 +28,14 @@ function OrdersPage() {
             Thursday 12 November 2026 · Offset non-RFID orders · Sample data
           </p>
         </div>
-        <button className="btn-primary" type="button">+ New quote</button>
+        <button
+          className="btn-primary"
+          type="button"
+          onClick={downloadSchedule}
+          title="Download the planning schedule as a spreadsheet"
+        >
+          Download Excel
+        </button>
       </div>
 
       <div className="summary-cards">

@@ -37,31 +37,36 @@ export function statusFor(requestedText, recommendedIso, chance) {
   return "Met"
 }
 
-// The name shown for a step, for example "Printing · SM52-A" or "Printing · Ranpath (outside)"
-export function describeStep(step) {
-  if (step.outside) return `${step.name} · ${step.machine} (outside)`
-  if (step.machine === step.name) return step.name
-  return `${step.name} · ${step.machine}`
+// The machine shown under the step name, for example "SM52-A" or "Ranpath (outside)".
+// Nothing is shown when the machine has the same name as the step (for example "Soft touch").
+export function machineLabel(step) {
+  if (step.outside) return `${step.machine} (outside)`
+  if (step.machine === step.name) return ""
+  return step.machine
 }
 
-// Builds the sentence shown for one step, for example "Mon 16 Nov, shift A – Tue 17 Nov, shift B"
-export function formatStepTime(step) {
+// The time of a step as one or two short lines, for example:
+//   ["Fri 13 Nov, shift A"]
+//   ["From Sat 14 Nov, shift B", "To Mon 16 Nov, shift A"]
+export function stepTimeLines(step) {
   const { start, end } = step
 
-  // Outside work has no shifts, only dates
+  // Work done outside has no shifts, only dates
   if (step.outside) {
-    return start.date === end.date
-      ? formatDate(start.date)
-      : `${formatDate(start.date)} – ${formatDate(end.date)}`
+    if (start.date === end.date) return [formatDate(start.date)]
+    return [`From ${formatDate(start.date)}`, `To ${formatDate(end.date)}`]
   }
 
   if (start.date === end.date && start.shift === end.shift) {
-    return `${formatDate(start.date)}, shift ${start.shift}`
+    return [`${formatDate(start.date)}, shift ${start.shift}`]
   }
   if (start.date === end.date) {
-    return `${formatDate(start.date)}, shifts ${start.shift}–${end.shift}`
+    return [`${formatDate(start.date)}, shifts ${start.shift} and ${end.shift}`]
   }
-  return `${formatDate(start.date)}, shift ${start.shift} – ${formatDate(end.date)}, shift ${end.shift}`
+  return [
+    `From ${formatDate(start.date)}, shift ${start.shift}`,
+    `To ${formatDate(end.date)}, shift ${end.shift}`,
+  ]
 }
 
 // Turns a date and shift into one text that can be compared (later text = later time)

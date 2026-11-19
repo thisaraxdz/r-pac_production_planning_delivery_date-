@@ -4,15 +4,14 @@ import { machinesByStep, outsourcePrinters, printMachines } from "../data/machin
 import { useSchedule } from "../context/ScheduleContext"
 import {
   SAMPLE_TODAY,
-  describeStep,
   formatDate,
-  formatStepTime,
   shortDateToIso,
   validateSteps,
 } from "../utils/scheduleHelpers"
 import StatusTag from "../components/StatusTag"
 import "./OrderDetailPage.css"
 import "./OrderDetailChooseDate.css"
+import "./OrderDetailSteps.css"
 
 const SAFETY_GAP_HOURS = 12
 
@@ -336,50 +335,78 @@ function OrderDetailPage() {
               </div>
             </div>
 
-            <div className="step-list">
-              {draft === null
-                ? details.steps.map((step) => (
-                    <div className="step-row" key={step.id}>
-                      <span>{describeStep(step)}</span>
-                      <b>{formatStepTime(step)}</b>
-                    </div>
-                  ))
-                : draft.map((step, index) => (
-                    <div className="edit-step" key={step.id}>
-                      <div className="edit-step-head">
-                        <b>{step.name}</b>
-                        <MachineSelect
-                          step={step}
-                          onChange={(machine) => changeMachine(index, machine)}
-                        />
-                      </div>
-                      {step.outside && (
-                        <p className="note">Done outside the factory: only dates are needed.</p>
-                      )}
-                      <div className="edit-times">
-                        <TimeFields
-                          label="From"
-                          stepName={step.name}
-                          point={step.start}
-                          showShift={!step.outside}
-                          onChange={(field, value) => changePoint(index, "start", field, value)}
-                        />
-                        <TimeFields
-                          label="To"
-                          stepName={step.name}
-                          point={step.end}
-                          showShift={!step.outside}
-                          onChange={(field, value) => changePoint(index, "end", field, value)}
-                        />
-                      </div>
-                    </div>
-                  ))}
-
-              <div className="step-row">
-                <span>Safety gap before dispatch</span>
-                <b>{SAFETY_GAP_HOURS} hours</b>
+            {draft === null ? (
+              <div className="steps-scroll">
+                <table className="steps-table">
+                  <thead>
+                    <tr>
+                      <th>Step</th>
+                      <th>Machine</th>
+                      <th>From</th>
+                      <th className="steps-shift">Shift</th>
+                      <th>To</th>
+                      <th className="steps-shift">Shift</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {details.steps.map((step) => (
+                      <tr key={step.id}>
+                        <td>{step.name}</td>
+                        <td>{step.outside ? `${step.machine} (outside)` : step.machine}</td>
+                        <td className="steps-date">{formatDate(step.start.date)}</td>
+                        <td className="steps-shift">{step.outside ? "" : step.start.shift}</td>
+                        <td className="steps-date">{formatDate(step.end.date)}</td>
+                        <td className="steps-shift">{step.outside ? "" : step.end.shift}</td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td colSpan={4}>Safety gap before dispatch</td>
+                      <td colSpan={2} className="steps-gap-value">
+                        {SAFETY_GAP_HOURS} hours
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
+            ) : (
+              <div className="step-list">
+                {draft.map((step, index) => (
+                  <div className="edit-step" key={step.id}>
+                    <div className="edit-step-head">
+                      <b>{step.name}</b>
+                      <MachineSelect
+                        step={step}
+                        onChange={(machine) => changeMachine(index, machine)}
+                      />
+                    </div>
+                    {step.outside && (
+                      <p className="note">Done outside the factory: only dates are needed.</p>
+                    )}
+                    <div className="edit-times">
+                      <TimeFields
+                        label="From"
+                        stepName={step.name}
+                        point={step.start}
+                        showShift={!step.outside}
+                        onChange={(field, value) => changePoint(index, "start", field, value)}
+                      />
+                      <TimeFields
+                        label="To"
+                        stepName={step.name}
+                        point={step.end}
+                        showShift={!step.outside}
+                        onChange={(field, value) => changePoint(index, "end", field, value)}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <div className="step-row">
+                  <span>Safety gap before dispatch</span>
+                  <b>{SAFETY_GAP_HOURS} hours</b>
+                </div>
+              </div>
+            )}
 
             {problems.length > 0 && (
               <div className="problems" role="alert">

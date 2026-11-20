@@ -24,7 +24,7 @@ function makeStep(type, machine, startDate, startShift, endDate, endShift) {
 export const orderDetails = {
   2001: {
     steps: [
-      makeStep("printing", "SM52-A", "2026-11-13", "A", "2026-11-13", "A"),
+      makeStep("printing", "SM-A", "2026-11-13", "A", "2026-11-13", "A"),
       makeStep("varnish", "GTO", "2026-11-13", "B", "2026-11-13", "B"),
       makeStep("pasting", "Pasting 1", "2026-11-14", "A", "2026-11-14", "A"),
       makeStep("dieCutting", "KSB", "2026-11-14", "B", "2026-11-16", "A"),
@@ -37,7 +37,7 @@ export const orderDetails = {
   },
   2002: {
     steps: [
-      makeStep("printing", "SM52-B", "2026-11-13", "A", "2026-11-13", "B"),
+      makeStep("printing", "SM-B", "2026-11-13", "A", "2026-11-13", "B"),
       makeStep("varnish", "KORD", "2026-11-14", "A", "2026-11-14", "A"),
       makeStep("pasting", "Pasting 2", "2026-11-14", "B", "2026-11-14", "B"),
       makeStep("dieCutting", "Flat bed", "2026-11-16", "A", "2026-11-16", "A"),
@@ -50,7 +50,7 @@ export const orderDetails = {
   },
   2003: {
     steps: [
-      makeStep("printing", "SM52-A", "2026-11-13", "B", "2026-11-13", "B"),
+      makeStep("printing", "SM-A", "2026-11-13", "B", "2026-11-13", "B"),
       makeStep("varnish", "GTO", "2026-11-14", "A", "2026-11-14", "A"),
       makeStep("pasting", "Pasting 3", "2026-11-14", "B", "2026-11-14", "B"),
       makeStep("dieCutting", "SBG", "2026-11-16", "A", "2026-11-17", "B"),
@@ -63,7 +63,7 @@ export const orderDetails = {
   },
   2004: {
     steps: [
-      makeStep("printing", "SM52-A", "2026-11-16", "B", "2026-11-17", "A"),
+      makeStep("printing", "SM-A", "2026-11-16", "B", "2026-11-17", "A"),
       makeStep("varnish", "KORD", "2026-11-17", "B", "2026-11-18", "A"),
       makeStep("softTouch", "Soft touch", "2026-11-18", "B", "2026-11-19", "A"),
       makeStep("pasting", "Pasting 1", "2026-11-19", "B", "2026-11-20", "A"),
@@ -77,7 +77,7 @@ export const orderDetails = {
   },
   2005: {
     steps: [
-      makeStep("printing", "7k Offset", "2026-11-14", "B", "2026-11-16", "A"),
+      makeStep("printing", "7-K", "2026-11-14", "B", "2026-11-16", "A"),
       makeStep("varnish", "GTO", "2026-11-16", "B", "2026-11-17", "A"),
       makeStep("pasting", "Pasting 4", "2026-11-17", "B", "2026-11-18", "A"),
       makeStep("doubleTape", "Double tape pasting", "2026-11-18", "B", "2026-11-18", "B"),
@@ -91,7 +91,7 @@ export const orderDetails = {
   },
   2006: {
     steps: [
-      makeStep("printing", "SM52-C", "2026-11-14", "A", "2026-11-14", "B"),
+      makeStep("printing", "SM-C", "2026-11-14", "A", "2026-11-14", "B"),
       makeStep("varnish", "KORD", "2026-11-23", "A", "2026-11-23", "A"),
       makeStep("pasting", "Pasting 5", "2026-11-23", "B", "2026-11-24", "A"),
       makeStep("dieCutting", "Hand plating", "2026-11-24", "B", "2026-11-24", "B"),

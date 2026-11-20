@@ -6,7 +6,7 @@ export const lockedPrinting = [2001]
 // Times when a machine cannot be used
 export const machineDowntime = [
   {
-    machine: "SM52-B",
+    machine: "SM-B",
     label: "Maintenance",
     start: { date: "2026-11-14", shift: "B" },
     end: { date: "2026-11-14", shift: "B" },

@@ -1,6 +1,7 @@
+import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { useSchedule } from "../context/ScheduleContext"
-import { buildScheduleCsv, downloadCsv } from "../utils/exportHelpers"
+import { downloadPlanningWorkbook } from "../utils/excelExport"
 import { SAMPLE_TODAY } from "../utils/scheduleHelpers"
 import StatusTag from "../components/StatusTag"
 import "./OrdersPage.css"
@@ -9,14 +10,31 @@ function OrdersPage() {
   const navigate = useNavigate()
   const { orders, details } = useSchedule()
 
+  // The Excel download: "exporting" is true while the file is being made
+  const [exporting, setExporting] = useState(false)
+  const [exportError, setExportError] = useState("")
+
   // The three cards are counted from the table data, so they always match it
   const totalOrders = orders.length
   const confirmedOrders = orders.filter((order) => order.status === "Met").length
   const notConfirmedOrders = totalOrders - confirmedOrders
 
-  // Saves the planning schedule as a file that Excel can open
-  function downloadSchedule() {
-    downloadCsv(`planning-schedule-${SAMPLE_TODAY}.csv`, buildScheduleCsv(orders, details))
+  // Saves the planning schedule as an Excel file
+  async function downloadSchedule() {
+    if (exporting) return
+    setExporting(true)
+    setExportError("")
+
+    try {
+      await downloadPlanningWorkbook({ orders, details, planDate: SAMPLE_TODAY })
+    } catch (error) {
+      console.error(error)
+      setExportError(
+        "Sorry, the Excel file could not be created. Please check that the library is installed (npm install exceljs)."
+      )
+    } finally {
+      setExporting(false)
+    }
   }
 
   return (
@@ -32,11 +50,17 @@ function OrdersPage() {
           className="btn-primary"
           type="button"
           onClick={downloadSchedule}
-          title="Download the planning schedule as a spreadsheet"
+          title="Download the planning schedule as an Excel file"
         >
-          Download Excel
+          {exporting ? "Preparing the file..." : "Download Excel"}
         </button>
       </div>
+
+      {exportError && (
+        <div className="problems" role="alert">
+          {exportError}
+        </div>
+      )}
 
       <div className="summary-cards">
         <div className="card summary-card">

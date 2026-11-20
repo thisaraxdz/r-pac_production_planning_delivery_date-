@@ -1,4 +1,5 @@
 // All machines and outside printers.
+// The names are written exactly as in the planner's Excel file.
 // To add a machine later, add its name to the right list below.
 
 // The kinds of work (steps) an order can go through
@@ -12,14 +13,14 @@ export const stepNames = {
 }
 
 // Printing machines inside the factory
-export const printMachines = ["SM52-A", "SM52-B", "SM52-C", "7k Offset", "Ink Jet", "Screen (UV)"]
+export const printMachines = ["SM-A", "SM-B", "SM-C", "7-K", "INK-JET", "SCREEN (UV)"]
 
 // Printing machines after which the next step can start in the same shift.
-// Right now only the 7k machine. To allow another machine, add its name here.
-export const sameShiftPrinters = ["7k Offset"]
+// Right now only the 7-K machine. To allow another machine, add its name here.
+export const sameShiftPrinters = ["7-K"]
 
 // Printing done outside the factory. Only the company and the dates are noted (no shifts).
-export const outsourcePrinters = ["Ranpath", "Printcare", "Print USA"]
+export const outsourcePrinters = ["RANPATH", "PRINTCARE", "PRINT USA"]
 
 // Finishing machines, grouped by the kind of work
 export const finishingMachines = {

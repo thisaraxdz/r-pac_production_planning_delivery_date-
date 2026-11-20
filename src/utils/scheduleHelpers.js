@@ -3,8 +3,35 @@ import { sameShiftPrinters } from "../data/machines"
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-// The sample data is set on this day. Later this becomes the real date of today.
-export const SAMPLE_TODAY = "2026-11-12"
+const LONG_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+const LONG_MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+]
+
+// Today's real date as text like "2026-11-20".
+// It is read from the computer's clock each time, so it changes every day.
+export function todayIso() {
+  const now = new Date()
+  const month = String(now.getMonth() + 1).padStart(2, "0")
+  const day = String(now.getDate()).padStart(2, "0")
+  return `${now.getFullYear()}-${month}-${day}`
+}
+
+// "2026-11-20" becomes "Friday 20 November 2026"
+export function formatLongDate(isoDate) {
+  const [year, month, day] = isoDate.split("-").map(Number)
+  const dayName = LONG_DAYS[new Date(year, month - 1, day).getDay()]
+  return `${dayName} ${day} ${LONG_MONTHS[month - 1]} ${year}`
+}
+
+// The sample dates in our data (like "Tue 17 Nov") have no year. They are all in this year.
+// When real data with full dates arrives, this is no longer needed.
+export const SAMPLE_YEAR = "2026"
+
+// Today's date, read when the page opens. (The name is old: it is now the real date of today.
+// It is kept so the other files keep working. We will rename it when we clean up.)
+export const SAMPLE_TODAY = todayIso()
 
 // An order with a chance (%) below this number is marked "At risk".
 // This is an assumption taken from the sample data (71% = at risk, 82% = met).
@@ -30,14 +57,14 @@ export function shortDateToIso(shortText, year) {
 // recommendedIso: the new date, like "2026-11-18"
 // chance: the chance in percent, or null if it is not calculated yet
 export function statusFor(requestedText, recommendedIso, chance) {
-  const requestedIso = shortDateToIso(requestedText, SAMPLE_TODAY.slice(0, 4))
+  const requestedIso = shortDateToIso(requestedText, SAMPLE_YEAR)
 
   if (recommendedIso > requestedIso) return "Not met"
   if (chance !== null && chance < AT_RISK_BELOW_PERCENT) return "At risk"
   return "Met"
 }
 
-// The machine shown under the step name, for example "SM52-A" or "Ranpath (outside)".
+// The machine shown under the step name, for example "SM-A" or "RANPATH (outside)".
 // Nothing is shown when the machine has the same name as the step (for example "Soft touch").
 export function machineLabel(step) {
   if (step.outside) return `${step.machine} (outside)`
@@ -79,7 +106,7 @@ export function canShareShift(step) {
   // Finishing steps (varnish, pasting, die cutting and so on) can follow each other in one shift
   if (step.type !== "printing") return true
 
-  // Printing: only on machines that can finish in the same shift (right now the 7k machine)
+  // Printing: only on machines that can finish in the same shift (right now the 7-K machine)
   return sameShiftPrinters.includes(step.machine)
 }
 

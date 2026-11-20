@@ -6,14 +6,14 @@ import SchedulePage from "./pages/SchedulePage"
 
 function App() {
   return (
-    <>
+    <div className="app-shell">
       <NavBar />
       <Routes>
         <Route path="/" element={<OrdersPage />} />
         <Route path="/orders/:soNumber" element={<OrderDetailPage />} />
         <Route path="/schedule" element={<SchedulePage />} />
       </Routes>
-    </>
+    </div>
   )
 }
 

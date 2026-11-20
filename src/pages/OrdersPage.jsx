@@ -42,9 +42,7 @@ function OrdersPage() {
       <div className="orders-header">
         <div>
           <h1>Delivery dates</h1>
-          <p className="subtitle">
-            Thursday 12 November 2026 · Offset non-RFID orders · Sample data
-          </p>
+          <p className="subtitle">Offset non-RFID orders · Sample data</p>
         </div>
         <button
           className="btn-primary"

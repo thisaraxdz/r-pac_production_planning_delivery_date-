@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router"
+import { formatLongDate, todayIso } from "../utils/scheduleHelpers"
 import "./NavBar.css"
 
 function NavBar() {
@@ -9,14 +10,21 @@ function NavBar() {
   const onSchedule = pathname.startsWith("/schedule")
 
   return (
-    <nav className="navbar">
-      <Link to="/" className={onDeliveryDates ? "nav-tab active" : "nav-tab"}>
-        Delivery dates
-      </Link>
-      <Link to="/schedule" className={onSchedule ? "nav-tab active" : "nav-tab"}>
-        Schedule board
-      </Link>
-    </nav>
+    <>
+      <header className="app-header">
+        <span className="app-title">Delivery Date Dashboard</span>
+        <span className="app-date">{formatLongDate(todayIso())}</span>
+      </header>
+
+      <nav className="navbar" aria-label="Main">
+        <Link to="/" className={onDeliveryDates ? "nav-tab active" : "nav-tab"}>
+          Delivery dates
+        </Link>
+        <Link to="/schedule" className={onSchedule ? "nav-tab active" : "nav-tab"}>
+          Schedule board
+        </Link>
+      </nav>
+    </>
   )
 }
 

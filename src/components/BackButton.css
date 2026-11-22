@@ -1,0 +1,27 @@
+.back-row {
+  margin-top: 16px;
+}
+
+/* The page right under the Back button needs less space on top */
+.back-row + .page {
+  padding-top: 12px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--umber);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: var(--gold-tint);
+}

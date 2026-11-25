@@ -1,0 +1,310 @@
+/* Search, selection, delete, pages and the "Are you sure?" window on the Delivery dates page */
+
+/* ---------- Search bar ---------- */
+
+.orders-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-top: 20px;
+}
+
+.orders-search {
+  position: relative;
+  flex: 1 1 320px;
+}
+
+.orders-search input {
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--umber);
+  font: inherit;
+}
+
+.orders-search input:focus {
+  outline: none;
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 0 3px rgba(212, 167, 44, 0.35);
+}
+
+.orders-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.orders-count {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- Message with Undo ---------- */
+
+.orders-notice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px solid #9ad1b0;
+  border-radius: 8px;
+  background: var(--success-bg);
+  color: var(--success);
+  font-size: 14px;
+}
+
+.orders-notice-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.orders-notice-button {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: var(--surface);
+  color: inherit;
+  font: 600 13px var(--font-body);
+  cursor: pointer;
+}
+
+/* ---------- Selected orders ---------- */
+
+.bulk-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px;
+  background: var(--gold-wash);
+  font-size: 14px;
+}
+
+.bulk-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.bulk-bar .btn-danger,
+.bulk-bar .btn-secondary {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gold-deep);
+  font: 600 14px var(--font-body);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---------- The table ---------- */
+
+.orders-table-card {
+  margin-top: 12px;
+}
+
+.orders-table {
+  min-width: 980px;
+}
+
+.orders-table .check-cell {
+  width: 44px;
+  padding-right: 0;
+}
+
+.orders-table .delete-cell {
+  width: 56px;
+  padding-left: 0;
+  text-align: right;
+}
+
+.orders-table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--gold-deep);
+  cursor: pointer;
+}
+
+.orders-table tbody tr.row-selected {
+  background: var(--gold-wash);
+}
+
+.so-reference {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.empty-cell {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Pages ---------- */
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 16px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+
+.pagination .btn-secondary {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.pagination .btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+}
+
+.pagination-size select {
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--umber);
+  font: inherit;
+}
+
+/* ---------- Test data ---------- */
+
+.test-data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.test-data .btn-secondary {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+/* ---------- Red button for deleting ---------- */
+
+.btn-danger {
+  padding: 9px 16px;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  background: var(--danger);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #7f2218;
+  border-color: #7f2218;
+}
+
+/* ---------- The "Are you sure?" window ---------- */
+
+.confirm-dialog {
+  width: min(440px, calc(100% - 32px));
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--umber);
+}
+
+.confirm-dialog::backdrop {
+  background: rgba(43, 33, 18, 0.45);
+}
+
+.confirm-dialog h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.confirm-dialog p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}

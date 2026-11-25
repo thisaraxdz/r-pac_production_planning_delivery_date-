@@ -25,7 +25,7 @@ export function formatLongDate(isoDate) {
   return `${dayName} ${day} ${LONG_MONTHS[month - 1]} ${year}`
 }
 
-// The sample dates in our data (like "Tue 17 Nov") have no year. They are all in this year.
+// The sample dates in our data (like "Tue 17 Nov") have no year. They start in this year.
 // When real data with full dates arrives, this is no longer needed.
 export const SAMPLE_YEAR = "2026"
 
@@ -45,11 +45,21 @@ export function formatDate(isoDate) {
   return `${dayName} ${day} ${MONTHS[month - 1]}`
 }
 
-// "Wed 18 Nov" becomes "2026-11-18". The year must be given, because the short text has no year.
-export function shortDateToIso(shortText, year) {
-  const [, day, monthName] = shortText.split(" ")
-  const month = MONTHS.indexOf(monthName) + 1
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+// "Wed 18 Nov" becomes "2026-11-18".
+// The text has no year, so the weekday tells which year is meant (it looks at 5 years from startYear).
+export function shortDateToIso(shortText, startYear) {
+  const [dayName, day, monthName] = shortText.split(" ")
+  const month = MONTHS.indexOf(monthName)
+  const first = Number(startYear)
+
+  for (let year = first; year <= first + 4; year++) {
+    if (DAYS[new Date(year, month, Number(day)).getDay()] === dayName) {
+      return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+    }
+  }
+
+  // The weekday did not match any of these years, so we use the first year
+  return `${startYear}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
 }
 
 // Works out the status of an order after its date changes

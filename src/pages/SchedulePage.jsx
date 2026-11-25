@@ -1,13 +1,17 @@
-import { Fragment, useRef, useState } from "react"
+import { Fragment, useMemo, useRef, useState } from "react"
 import { Link } from "react-router"
 import { finishingGroups, printMachines, stepNames } from "../data/machines"
 import { lockedPrinting } from "../data/boardData"
 import { useSchedule } from "../context/ScheduleContext"
 import { buildBoard } from "../utils/boardHelpers"
-import { pointFromSlot } from "../utils/calendarHelpers"
+import { addDays, pointFromSlot } from "../utils/calendarHelpers"
 import { planDowntimeMove, planJobMove } from "../utils/moveHelpers"
-import { formatDate } from "../utils/scheduleHelpers"
+import { formatDate, todayIso } from "../utils/scheduleHelpers"
 import "./SchedulePage.css"
+import "./BoardControls.css"
+
+// How many days the board shows at a time
+const WINDOW_DAYS = 14
 
 function LockIcon() {
   return (
@@ -159,13 +163,23 @@ function SchedulePage() {
   const [preview, setPreview] = useState(null)
   // notice: the message shown after a drop
   const [notice, setNotice] = useState(null)
+  // The first day of the window. "" means: start at the first planned job.
+  const [windowStart, setWindowStart] = useState("")
 
-  const { days, blocks, conflictIds, messages } = buildBoard({
-    orders,
-    details,
-    lockedPrinting,
-    machineDowntime: downtime,
-  })
+  // The board is rebuilt only when the data or the window changes (not while dragging)
+  const board = useMemo(
+    () =>
+      buildBoard({
+        orders,
+        details,
+        lockedPrinting,
+        machineDowntime: downtime,
+        windowStart,
+        windowDays: WINDOW_DAYS,
+      }),
+    [orders, details, downtime, windowStart]
+  )
+  const { days, blocks, allBlocks, conflictIds, messages } = board
 
   if (days.length === 0) {
     return (
@@ -189,6 +203,12 @@ function SchedulePage() {
   // A normal machine row accepts boxes for that machine
   function machineTarget(machine) {
     return { machine, outsideId: null }
+  }
+
+  // ---- Moving the window ----
+
+  function moveWindow(dayCount) {
+    setWindowStart(addDays(board.windowStart, dayCount))
   }
 
   // ---- Drag and drop ----
@@ -234,16 +254,18 @@ function SchedulePage() {
     }
 
     const newStart = pointFromSlot(days, startSlot)
+
+    // The move is checked against ALL boxes, also the ones outside the days shown
     const plan =
       block.kind === "downtime"
-        ? planDowntimeMove({ block, target, newStart, days, blocks })
+        ? planDowntimeMove({ block, target, newStart, days, blocks: allBlocks })
         : planJobMove({
             block,
             target,
             newStart,
             days,
             orderSteps: details[block.soNumber].steps,
-            blocks,
+            blocks: allBlocks,
           })
 
     return { plan, shownStart, length }
@@ -333,12 +355,40 @@ function SchedulePage() {
     onDrop: handleDrop,
   }
 
+  const shownMessages = messages.slice(0, 8)
+
   return (
     <div className="page">
       <h1>Schedule board</h1>
-      <p className="subtitle">
-        Printing and finishing · {formatDate(days[0])} – {formatDate(days[days.length - 1])} · Sample data
-      </p>
+      <p className="subtitle">Printing and finishing · Sample data</p>
+
+      <div className="board-controls">
+        <button className="btn-secondary" type="button" onClick={() => moveWindow(-7)}>
+          Previous week
+        </button>
+        <button className="btn-secondary" type="button" onClick={() => moveWindow(7)}>
+          Next week
+        </button>
+        <button className="btn-secondary" type="button" onClick={() => setWindowStart(todayIso())}>
+          Today
+        </button>
+        <button className="btn-secondary" type="button" onClick={() => setWindowStart("")}>
+          First job
+        </button>
+        <label className="board-goto">
+          <span>Go to</span>
+          <input
+            type="date"
+            value={board.windowStart}
+            onChange={(event) => {
+              if (event.target.value) setWindowStart(event.target.value)
+            }}
+          />
+        </label>
+        <span className="board-range">
+          Showing {formatDate(days[0])} to {formatDate(days[days.length - 1])}
+        </span>
+      </div>
 
       <div className="legend">
         {Object.entries(stepNames).map(([type, name]) => (
@@ -390,9 +440,12 @@ function SchedulePage() {
         <div className="clash-box" role="alert">
           <b>Machine clashes found (red rings):</b>
           <ul>
-            {messages.map((message) => (
+            {shownMessages.map((message) => (
               <li key={message}>{message}</li>
             ))}
+            {messages.length > shownMessages.length && (
+              <li>and {messages.length - shownMessages.length} more</li>
+            )}
           </ul>
           <span>Open the order and change its machine, date or shift.</span>
         </div>

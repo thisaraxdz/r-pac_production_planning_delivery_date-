@@ -1,6 +1,6 @@
 /* Search, selection, delete, pages and the "Are you sure?" window on the Delivery dates page */
 
-/* ---------- Search bar ---------- */
+/* ---------- Search bar and Select button ---------- */
 
 .orders-toolbar {
   display: flex;
@@ -43,6 +43,15 @@
 .orders-count {
   font-size: 14px;
   color: var(--muted);
+}
+
+.select-toggle {
+  min-width: 84px;
+}
+
+.select-toggle-on {
+  background: var(--gold-tint);
+  border-color: var(--gold);
 }
 
 /* ---------- Message with Undo ---------- */
@@ -106,6 +115,11 @@
   font-size: 14px;
 }
 
+.bulk-bar .btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .link-button {
   padding: 0;
   border: 0;
@@ -122,18 +136,66 @@
   margin-top: 12px;
 }
 
+/* Fixed column widths: every column has its own space, and "Customer" takes what is left */
 .orders-table {
-  min-width: 980px;
+  table-layout: fixed;
+  width: 100%;
+  min-width: 1000px;
+}
+
+.orders-table .col-check {
+  width: 40px;
+}
+
+.orders-table .col-order {
+  width: 124px;
+}
+
+.orders-table .col-reference {
+  width: 150px;
+}
+
+.orders-table .col-type {
+  width: 118px;
+}
+
+.orders-table .col-requested {
+  width: 100px;
+}
+
+.orders-table .col-recommended {
+  width: 104px;
+}
+
+.orders-table .col-chance {
+  width: 188px;
+}
+
+.orders-table .col-status {
+  width: 96px;
+}
+
+.orders-table .col-delete {
+  width: 44px;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px 10px;
+}
+
+.orders-table th {
+  letter-spacing: 0.03em;
 }
 
 .orders-table .check-cell {
-  width: 44px;
+  padding-left: 14px;
   padding-right: 0;
 }
 
 .orders-table .delete-cell {
-  width: 56px;
   padding-left: 0;
+  padding-right: 8px;
   text-align: right;
 }
 
@@ -148,11 +210,33 @@
   background: var(--gold-wash);
 }
 
-.so-reference {
-  margin-top: 2px;
+.orders-table .so-link {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.orders-table .reference-cell {
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.orders-table .date-cell {
+  white-space: nowrap;
+}
+
+.orders-table .chance {
+  min-width: 0;
+}
+
+/* The status bubble: a little bigger, and always on one line */
+.tag {
+  white-space: nowrap;
+}
+
+.orders-table .tag {
+  padding: 4px 14px;
+  font-size: 13px;
 }
 
 .empty-cell {
@@ -271,9 +355,14 @@
   cursor: pointer;
 }
 
-.btn-danger:hover {
+.btn-danger:hover:not(:disabled) {
   background: #7f2218;
   border-color: #7f2218;
+}
+
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ---------- The "Are you sure?" window ---------- */

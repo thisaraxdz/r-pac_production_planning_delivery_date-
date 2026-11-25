@@ -60,6 +60,7 @@ function OrdersPage() {
   const [query, setQuery] = useState("")
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(50)
+  const [selectMode, setSelectMode] = useState(false) // true after the planner presses "Select"
   const [selected, setSelected] = useState(() => new Set())
 
   // Deleting: "confirm" is the question being asked, "notice" is the message with Undo
@@ -102,7 +103,7 @@ function OrdersPage() {
     if (headerCheckRef.current) {
       headerCheckRef.current.indeterminate = somePageSelected && !allPageSelected
     }
-  }, [somePageSelected, allPageSelected])
+  }, [somePageSelected, allPageSelected, selectMode])
 
   // Opens or closes the "Are you sure?" window
   useEffect(() => {
@@ -133,6 +134,15 @@ function OrdersPage() {
 
   // ---- Selecting ----
 
+  function startSelecting() {
+    setSelectMode(true)
+  }
+
+  function stopSelecting() {
+    setSelectMode(false)
+    setSelected(new Set())
+  }
+
   function toggleOne(soNumber) {
     setSelected((current) => {
       const next = new Set(current)
@@ -159,6 +169,12 @@ function OrdersPage() {
 
   function clearSelection() {
     setSelected(new Set())
+  }
+
+  // A click on a row: in select mode it ticks the row, otherwise it opens the order
+  function clickRow(soNumber) {
+    if (selectMode) toggleOne(soNumber)
+    else navigate(`/orders/${soNumber}`)
   }
 
   // ---- Deleting ----
@@ -315,12 +331,26 @@ function OrdersPage() {
             ? `${orders.length.toLocaleString()} orders`
             : `${matches.length.toLocaleString()} of ${orders.length.toLocaleString()} orders match`}
         </span>
+        <button
+          type="button"
+          className={selectMode ? "btn-secondary select-toggle select-toggle-on" : "btn-secondary select-toggle"}
+          aria-pressed={selectMode}
+          onClick={selectMode ? stopSelecting : startSelecting}
+        >
+          {selectMode ? "Done" : "Select"}
+        </button>
       </div>
 
-      {selected.size > 0 && (
-        <div className="bulk-bar" role="status">
+      {selectMode && (
+        <div className="bulk-bar">
           <span>
-            <b>{selected.size.toLocaleString()}</b> selected
+            {selected.size === 0 ? (
+              "Tick the orders you want to delete."
+            ) : (
+              <>
+                <b>{selected.size.toLocaleString()}</b> selected
+              </>
+            )}
           </span>
           {allPageSelected && matches.length > pageRows.length && !allMatchingSelected && (
             <button type="button" className="link-button" onClick={selectAllMatching}>
@@ -331,10 +361,20 @@ function OrdersPage() {
             <span>All {matches.length.toLocaleString()} matching orders are selected.</span>
           )}
           <span className="bulk-actions">
-            <button type="button" className="btn-danger" onClick={() => askDelete([...selected])}>
+            <button
+              type="button"
+              className="btn-danger"
+              disabled={selected.size === 0}
+              onClick={() => askDelete([...selected])}
+            >
               Delete selected
             </button>
-            <button type="button" className="btn-secondary" onClick={clearSelection}>
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={selected.size === 0}
+              onClick={clearSelection}
+            >
               Clear selection
             </button>
           </span>
@@ -343,18 +383,33 @@ function OrdersPage() {
 
       <div className="card table-card orders-table-card">
         <table className="orders-table">
+          <colgroup>
+            {selectMode && <col className="col-check" />}
+            <col className="col-order" />
+            <col className="col-reference" />
+            <col />
+            <col className="col-type" />
+            <col className="col-requested" />
+            <col className="col-recommended" />
+            <col className="col-chance" />
+            <col className="col-status" />
+            <col className="col-delete" />
+          </colgroup>
           <thead>
             <tr>
-              <th className="check-cell">
-                <input
-                  type="checkbox"
-                  ref={headerCheckRef}
-                  checked={allPageSelected}
-                  onChange={togglePage}
-                  aria-label="Select all orders on this page"
-                />
-              </th>
+              {selectMode && (
+                <th className="check-cell">
+                  <input
+                    type="checkbox"
+                    ref={headerCheckRef}
+                    checked={allPageSelected}
+                    onChange={togglePage}
+                    aria-label="Select all orders on this page"
+                  />
+                </th>
+              )}
               <th>Order</th>
+              <th>Reference</th>
               <th>Customer</th>
               <th>Type</th>
               <th>Requested</th>
@@ -369,7 +424,7 @@ function OrdersPage() {
           <tbody>
             {pageRows.length === 0 && (
               <tr>
-                <td colSpan={9} className="empty-cell">
+                <td colSpan={selectMode ? 10 : 9} className="empty-cell">
                   {orders.length === 0
                     ? "There are no orders. You can load test orders below."
                     : "No orders match your search."}
@@ -381,16 +436,18 @@ function OrdersPage() {
               <tr
                 key={order.soNumber}
                 className={selected.has(order.soNumber) ? "row-selected" : ""}
-                onClick={() => navigate(`/orders/${order.soNumber}`)}
+                onClick={() => clickRow(order.soNumber)}
               >
-                <td className="check-cell" onClick={(event) => event.stopPropagation()}>
-                  <input
-                    type="checkbox"
-                    checked={selected.has(order.soNumber)}
-                    onChange={() => toggleOne(order.soNumber)}
-                    aria-label={`Select SO ${order.soNumber}`}
-                  />
-                </td>
+                {selectMode && (
+                  <td className="check-cell" onClick={(event) => event.stopPropagation()}>
+                    <input
+                      type="checkbox"
+                      checked={selected.has(order.soNumber)}
+                      onChange={() => toggleOne(order.soNumber)}
+                      aria-label={`Select SO ${order.soNumber}`}
+                    />
+                  </td>
+                )}
                 <td>
                   <Link
                     to={`/orders/${order.soNumber}`}
@@ -399,12 +456,12 @@ function OrdersPage() {
                   >
                     SO {order.soNumber}
                   </Link>
-                  {order.reference && <div className="so-reference">{order.reference}</div>}
                 </td>
+                <td className="reference-cell">{order.reference}</td>
                 <td>{order.customer}</td>
                 <td>{order.type}</td>
-                <td>{order.requested}</td>
-                <td className="recommended">{order.recommended}</td>
+                <td className="date-cell">{order.requested}</td>
+                <td className="date-cell recommended">{order.recommended}</td>
                 <td>
                   {order.chance === null ? (
                     <span style={{ color: "#4b5563" }}>Not calculated yet</span>

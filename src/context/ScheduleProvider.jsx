@@ -3,6 +3,7 @@ import { ScheduleContext } from "./ScheduleContext"
 import { orderDetails } from "../data/orderDetails"
 import { orders as sampleOrders } from "../data/orders"
 import { machineDowntime as sampleDowntime } from "../data/boardData"
+import { makeSampleData } from "../data/sampleData"
 import { formatDate, statusFor } from "../utils/scheduleHelpers"
 
 function ScheduleProvider({ children }) {
@@ -51,9 +52,68 @@ function ScheduleProvider({ children }) {
     )
   }
 
+  // Deletes orders (with their steps). It returns what was removed, so the delete can be undone.
+  function deleteOrders(soNumbers) {
+    const ids = new Set(soNumbers)
+    const entries = []
+    const removedDetails = {}
+
+    orders.forEach((order, index) => {
+      if (ids.has(order.soNumber)) {
+        entries.push({ order, index })
+        removedDetails[order.soNumber] = details[order.soNumber]
+      }
+    })
+
+    setOrders((current) => current.filter((order) => !ids.has(order.soNumber)))
+    setDetails((current) => {
+      const next = { ...current }
+      entries.forEach(({ order }) => delete next[order.soNumber])
+      return next
+    })
+
+    return { entries, details: removedDetails }
+  }
+
+  // Puts deleted orders back, each one in its old place
+  function restoreOrders(snapshot) {
+    setOrders((current) => {
+      const next = [...current]
+      snapshot.entries.forEach(({ order, index }) => {
+        next.splice(Math.min(index, next.length), 0, order)
+      })
+      return next
+    })
+    setDetails((current) => ({ ...current, ...snapshot.details }))
+  }
+
+  // Test data: many orders, to check that the system stays fast
+  function loadSample(count) {
+    const data = makeSampleData(count)
+    setOrders(data.orders)
+    setDetails(data.details)
+  }
+
+  // Back to the small sample (6 orders)
+  function resetSample() {
+    setOrders(sampleOrders)
+    setDetails(orderDetails)
+  }
+
   return (
     <ScheduleContext.Provider
-      value={{ details, orders, downtime, saveSteps, acceptDate, moveDowntime }}
+      value={{
+        details,
+        orders,
+        downtime,
+        saveSteps,
+        acceptDate,
+        moveDowntime,
+        deleteOrders,
+        restoreOrders,
+        loadSample,
+        resetSample,
+      }}
     >
       {children}
     </ScheduleContext.Provider>

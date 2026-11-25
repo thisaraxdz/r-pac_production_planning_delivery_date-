@@ -1,0 +1,44 @@
+/* The buttons that move the window of days on the schedule board */
+
+.board-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin: 16px 0 4px;
+}
+
+.board-controls .btn-secondary {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.board-goto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.board-goto input {
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--umber);
+  font-family: var(--font-body);
+}
+
+.board-goto input:focus-visible {
+  outline: none;
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 0 3px rgba(212, 167, 44, 0.35);
+}
+
+.board-range {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--muted);
+}
